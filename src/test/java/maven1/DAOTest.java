@@ -1,5 +1,8 @@
 package maven1;
 
+import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import data.Address;
@@ -9,18 +12,24 @@ import data.dao.AddressDAO;
 import data.dao.BookDAO;
 import data.dao.UserDAO;
 
+
 public class DAOTest {
 	@Test
 	public void testUserDao() {
 
 		UserDAO ud = new UserDAO();
-		System.out.println("UserDAO.findById(2) : " + ud.findByID("2"));
+		User seba = ud.findByID("2");
+		Assert.assertEquals("sebastian", seba.getUsername());
+		System.out.println("UserDAO.findById(2) : " + seba);
 		System.out.println("ListAll");
-		for(User u : ud.listAll()) {
+		List<User> allUsers = ud.listAll();
+		Assert.assertEquals( 20,allUsers.size());
+		for(User u : allUsers) {
 			System.out.println(u);
 		}
 		System.out.println("findByProperty");
 		for(User u : ud.findByProperties("username", "Rysiek")) {
+			Assert.assertEquals(16, u.getUserId());
 			System.out.println(u);
 		}
 	}
