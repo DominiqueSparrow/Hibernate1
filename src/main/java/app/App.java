@@ -15,13 +15,14 @@ public class App {
 		UserDAO ud = new UserDAO();
 		AddressDAO ad = new AddressDAO();
 		BookDAO bd = new BookDAO();
+		
 
 		User u = ud.findByID(userId);
 		Address a = ad.findByID(u.getAddressId().toString());
 		List<Book> books = bd.findByProperties("userId", userId);
 		System.out.printf("User: id: %d, name: %s, password: %s \n",u.getUserId(), u.getUsername(), u.getPassword());
 		System.out.printf("  Address: street: %s, house number: %d, city: %s, postal code: %s\n", a.getUlica(), a.getNumerDomu(),
-				a.getMiasto(), a.getKodPocztowy());
+				a.getMiastoId(), a.getKodPocztowy());
 		System.out.println("  Books: ");
 		for (Book b : books) {
 			System.out.printf("    Book: id: %d, title: %s, rented from: %s, rented till: %s\n",b.getId(),b.getTitle(),b.getDateFrom(),b.getDateTo());

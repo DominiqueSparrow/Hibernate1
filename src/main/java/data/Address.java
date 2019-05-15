@@ -6,6 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "Adres")
@@ -15,26 +20,31 @@ public class Address {
     @Column(name = "id")
 	Integer id;
 	
+	@NotNull(message = "Name cannot be null")
 	@Column(name = "city")
-	String miasto;
+	Integer miastoId;
 	
+	@NotNull(message = "Name cannot be null")
+	@Length(min=3)
 	@Column(name = "street")
 	String ulica;
 	
+	@Positive 
 	@Column(name = "house_number")
 	Integer numerDomu;
 	
+	@Length(min=5,max=5)
 	@Column(name ="postal_code")
 	String kodPocztowy;
 	
 	public String getKodPocztowy() {
 		return kodPocztowy;
 	}
-	public String getMiasto() {
-		return miasto;
+	public Integer getMiastoId() {
+		return miastoId;
 	}
-	public void setMiasto(String miasto) {
-		this.miasto = miasto;
+	public void setMiasto(Integer miasto) {
+		this.miastoId = miasto;
 	}
 	public String getUlica() {
 		return ulica;
@@ -51,7 +61,7 @@ public class Address {
 	
 	@Override
 	public String toString() {
-		return String.format("Address (%d,%s,%s,%d,%s)", id, miasto, ulica,numerDomu,kodPocztowy);
+		return String.format("Address (%d,%s,%s,%d,%s)", id, miastoId, ulica,numerDomu,kodPocztowy);
 	}
 
 }
