@@ -4,18 +4,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "Uzytkownik")
 public class User {
 
+	@NotNull
 	@Id
 	@Column(name = "id")
 	private int userId;
 
+	@Length(min = 3, max = 50)
 	@Column(name = "user")
 	private String username;
 
+	@Length(min = 5, max = 50)
 	@Column(name = "password")
 	private String password;
 
