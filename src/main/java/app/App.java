@@ -18,7 +18,7 @@ public class App {
 		
 
 		User u = ud.findByID(userId);
-		Address a = ad.findByID(u.getAddressId().toString());
+		Address a = ad.findByID(u.getAdres().toString());
 		List<Book> books = bd.findByProperties("userId", userId);
 		System.out.printf("User: id: %d, name: %s, password: %s \n",u.getUserId(), u.getUsername(), u.getPassword());
 		System.out.printf("  Address: street: %s, house number: %d, city: %s, postal code: %s\n", a.getUlica(), a.getNumerDomu(),

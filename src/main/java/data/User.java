@@ -3,9 +3,12 @@ package data;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -25,9 +28,11 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@Column(name = "address_id")
-	private Integer addressId;
-
+	@OneToOne
+	@JoinColumn(referencedColumnName = "id", name = "address_id")
+	@Where(clause = "ulica is not null")
+	private Address adres;
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -52,17 +57,17 @@ public class User {
 		this.password = password;
 	}
 
-	public Integer getAddressId() {
-		return addressId;
+	public Address getAdres() {
+		return adres;
 	}
 
-	public void setAddressId(Integer addressId) {
-		this.addressId = addressId;
+	public void setAdres(Address adres) {
+		this.adres = adres;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("User (%s,%s,%s,%s)", userId, username, password, addressId);
+		return String.format("User (%s,%s,%s,%s)", userId, username, password, adres);
 	}
 
 }

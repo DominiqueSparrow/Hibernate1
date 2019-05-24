@@ -2,6 +2,7 @@ package data.dao;
 
 import java.util.List;
 
+import org.hibernate.Filter;
 import org.hibernate.query.Query;
 
 import data.Book;
@@ -29,6 +30,14 @@ public class BookDAO extends DAO {
 	public List<Book> findByProperties(String property, String value) {
 		String hql = String.format("from Book as b where b.%s = '%s'", property, value);
 		Query<Book> q = hibernateSession.createQuery(hql);
+		return q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Book> findByUserId(int userId){
+		Filter f = hibernateSession.enableFilter("bookUserIdFilter").setParameter("user_id_param", userId);
+		Query<Book> q = hibernateSession.createQuery("from Book");
+		init();
 		return q.getResultList();
 	}
 

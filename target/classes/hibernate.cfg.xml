@@ -8,7 +8,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">asdf</property>
-        <property name="hibernate.default_schema">database</property>
+        <!--   <property name="hibernate.default_schema">database</property> -->
         <property name="hibernate.connection.CharSet">utf8</property>
 		<property name="hibernate.connection.characterEncoding">utf8</property>
 		<property name="hibernate.connection.useUnicode">true</property>

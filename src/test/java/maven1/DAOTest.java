@@ -90,10 +90,6 @@ public class DAOTest {
 		for (Book u : bd.listAll()) {
 			System.out.println(u);
 		}
-		System.out.println("findByProperty");
-		for (Book u : bd.findByProperties("userId", "3")) {
-			System.out.println(u);
-		}
 	}
 
 	@Test
@@ -215,5 +211,23 @@ public class DAOTest {
 			Set<ConstraintViolation<User>> result = validator.validate(a);
 			Assert.assertEquals(0, result.size());
 		}
+	}
+	
+	@Test
+	public void testUserAddresWhereClause(){
+		UserDAO ud = new UserDAO();
+		List<User> allUsers = ud.listAll();
+		for (User u : allUsers) {
+			System.out.println(u);
+		}
+	}
+	
+	@Test
+	public void testBookByUserIdFilter(){
+		BookDAO bd = new BookDAO();
+		List<Book> books = bd.findByUserId(3);
+		for(Book book : books){
+			System.out.println(book);
+	}
 	}
 }
