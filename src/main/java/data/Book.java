@@ -1,27 +1,20 @@
 package data;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-
-@FilterDef(name = "bookUserIdFilter", parameters = @ParamDef(name = "user_id_param", type = "int"))
-@Filter(name = "bookUserIdFilter", condition = "`userid` = :user_id_param")
-
+@NamedQueries(value = { @NamedQuery(name = "BookById", query = "from Book as b where b.id = :id") })
 @Entity
-@Table(name = "WypozyczoneKsiazki")
+@Table(name = "Ksiazka")
+
 public class Book {
 
 	@Id
@@ -29,22 +22,13 @@ public class Book {
 	@Column(name = "id")
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(referencedColumnName = "id", name = "userid")
-	private User user;
-
-	@PastOrPresent
-	@Column(name = "date_from")
-	private Date dateFrom;
-
-	@PastOrPresent
-	@Column(name = "date_to")
-	private Date dateTo;
-
-	@NotEmpty
 	@Size(min = 1, max = 150)
-	@Column(name = "title")
+	@Column(name = "tytulKsiazki")
 	private String title;
+
+	@ManyToOne
+	@JoinColumn(referencedColumnName = "id", name = "autorId")
+	private Author author;
 
 	public int getId() {
 		return id;
@@ -52,22 +36,6 @@ public class Book {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Date getDateFrom() {
-		return dateFrom;
-	}
-
-	public void setDateFrom(Date dateFrom) {
-		this.dateFrom = dateFrom;
-	}
-
-	public Date getDateTo() {
-		return dateTo;
-	}
-
-	public void setDateTo(Date dateTo) {
-		this.dateTo = dateTo;
 	}
 
 	public String getTitle() {
@@ -78,9 +46,16 @@ public class Book {
 		this.title = title;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("Book (%s,%s,%s,%s)", id, user, dateFrom, dateTo);
+	public Author getAuthor() {
+		return author;
 	}
 
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[Książka: \"%s\" ,  autor: %s ]", this.title, this.author);
+	}
 }

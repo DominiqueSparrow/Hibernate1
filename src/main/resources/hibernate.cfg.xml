@@ -17,7 +17,7 @@
 		<mapping class="data.Address" />
 		<mapping class="data.Book" />
 		<mapping class="data.User" />
-		<mapping class="data.BookInfo" />
+		<mapping class="data.RentedBook" />
 		<mapping class="data.City" />
 		<mapping class="data.Author" />
 		

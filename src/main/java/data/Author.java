@@ -17,16 +17,19 @@ public class Author {
 
 	@NotNull
 	@Id
-	@Column(name = "idAutor")
+	@Column(name = "id")
 	private int id;
+	
 	@Length(min = 1, max = 50)
-	@Column(name = "ImieAutora")
+	@Column(name = "imieAutora")
 	private String authorName;
+	
 	@Length(min = 1, max = 50)
-	@Column(name = "NazwiskoAutora")
+	@Column(name = "nazwiskoAutora")
 	private String authorSurname;
+	
 	@Past
-	@Column(name = "DataUrodzenia")
+	@Column(name = "dataUrodzenia")
 	private Date dateOfBirth;
 
 	public int getId() {

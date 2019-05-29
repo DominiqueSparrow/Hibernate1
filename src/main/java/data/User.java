@@ -8,7 +8,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -21,18 +20,25 @@ public class User {
 	private int userId;
 
 	@Length(min = 3, max = 50)
-	@Column(name = "user")
+	@Column(name = "nazwaUzytkownika")
 	private String username;
 
 	@Length(min = 5, max = 50)
-	@Column(name = "password")
+	@Column(name = "haslo")
 	private String password;
 
+	@Length(min = 3, max = 50)
+	@Column(name = "imie")
+	private String name;
+
+	@Length(min = 3, max = 50)
+	@Column(name = "nazwisko")
+	private String surname;
+
 	@OneToOne
-	@JoinColumn(referencedColumnName = "id", name = "address_id")
-	@Where(clause = "ulica is not null")
-	private Address adres;
-	
+	@JoinColumn(referencedColumnName = "id", name = "adresId")
+	private Address address;
+
 	public int getUserId() {
 		return userId;
 	}
@@ -58,16 +64,40 @@ public class User {
 	}
 
 	public Address getAdres() {
-		return adres;
+		return address;
 	}
 
 	public void setAdres(Address adres) {
-		this.adres = adres;
+		this.address = adres;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("User (%s,%s,%s,%s)", userId, username, password, adres);
+		return String.format("%s %s (%s, %s, %s, mieszka w %s)", name, surname, username, userId, password, address);
 	}
 
 }

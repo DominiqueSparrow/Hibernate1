@@ -13,14 +13,14 @@ import org.junit.Test;
 
 import data.Address;
 import data.Author;
+import data.RentedBook;
 import data.Book;
-import data.BookInfo;
 import data.City;
 import data.User;
 import data.dao.AddressDAO;
 import data.dao.AuthorDAO;
+import data.dao.RentedBookDAO;
 import data.dao.BookDAO;
-import data.dao.BookInfoDAO;
 import data.dao.CityDAO;
 import data.dao.UserDAO;
 
@@ -54,7 +54,7 @@ public class DAOTest {
 		System.out.println("AuthorDAO.findById(2) : " + adas);
 		System.out.println("ListAll");
 		List<Author> allUsers = ud.listAll();
-		Assert.assertEquals(3, allUsers.size());
+		Assert.assertEquals(10, allUsers.size());
 		for (Author u : allUsers) {
 			System.out.println(u);
 		}
@@ -83,28 +83,28 @@ public class DAOTest {
 	}
 
 	@Test
-	public void testBookDao() {
-		BookDAO bd = new BookDAO();
+	public void testRentedBookDao() {
+		RentedBookDAO bd = new RentedBookDAO();
 		System.out.println("BookDAO.findById(2) : " + bd.findByID("2"));
 		System.out.println("ListAll");
-		for (Book u : bd.listAll()) {
+		for (RentedBook u : bd.listAll()) {
 			System.out.println(u);
 		}
 	}
 
 	@Test
-	public void testBookInfoDao() {
-		BookInfoDAO bd = new BookInfoDAO();
-		BookInfo panTadeusz = bd.findByID("2");
-		Assert.assertEquals(panTadeusz.getAuthorId(), new Integer(2));
+	public void testBookDao() {
+		BookDAO bd = new BookDAO();
+		Book panTadeusz = bd.findByID("2");
+		Assert.assertEquals(panTadeusz.getAuthor().getId(), 2);
 		System.out.println("BookInfoDAO.findById(2) : " + panTadeusz);
 
 		System.out.println("ListAll");
-		for (BookInfo u : bd.listAll()) {
+		for (Book u : bd.listAll()) {
 			System.out.println(u);
 		}
 		System.out.println("findByProperty");
-		for (BookInfo u : bd.findByProperties("authorId", "2")) {
+		for (Book u : bd.findByProperties("author.authorName", "Adam")) {
 			System.out.println(u);
 		}
 	}
@@ -168,9 +168,9 @@ public class DAOTest {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 
-		BookDAO ad = new BookDAO();
-		for (Book a : ad.listAll()) {
-			Set<ConstraintViolation<Book>> result = validator.validate(a);
+		RentedBookDAO ad = new RentedBookDAO();
+		for (RentedBook a : ad.listAll()) {
+			Set<ConstraintViolation<RentedBook>> result = validator.validate(a);
 			Assert.assertEquals(0, result.size());
 		}
 
@@ -181,9 +181,9 @@ public class DAOTest {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 
-		BookInfoDAO ad = new BookInfoDAO();
-		for (BookInfo a : ad.listAll()) {
-			Set<ConstraintViolation<BookInfo>> result = validator.validate(a);
+		BookDAO ad = new BookDAO();
+		for (Book a : ad.listAll()) {
+			Set<ConstraintViolation<Book>> result = validator.validate(a);
 			Assert.assertEquals(0, result.size());
 		}
 
@@ -224,9 +224,9 @@ public class DAOTest {
 	
 	@Test
 	public void testBookByUserIdFilter(){
-		BookDAO bd = new BookDAO();
-		List<Book> books = bd.findByUserId(3);
-		for(Book book : books){
+		RentedBookDAO bd = new RentedBookDAO();
+		List<RentedBook> books = bd.findByUserId(3);
+		for(RentedBook book : books){
 			System.out.println(book);
 	}
 	}

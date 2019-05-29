@@ -14,15 +14,15 @@ public class City {
 	
 	@Id
 	@NotNull
-	@Column(name = "idMiasto")
+	@Column(name = "id")
 	private int id;
 	@NotEmpty
 	@Size (min=1, max=50)
-	@Column(name = "NazwaMiejscowosci")
+	@Column(name = "nazwaMiejscowosci")
 	private String cityName;
 	@NotEmpty
 	@Size (min=1, max=50)
-	@Column(name = "Wojewodztwo")
+	@Column(name = "wojewodztwo")
 	private String region;
 
 	public int getId() {
