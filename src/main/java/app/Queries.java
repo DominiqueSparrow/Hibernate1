@@ -1,7 +1,9 @@
 package app;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,7 +30,33 @@ public class Queries {
 
 		}
 	}
+	
+	@SuppressWarnings("rawtypes")
+	private static List<RentedBook> JPQLNoParameterRentedBookFromWroclawCity() {
+		init();
+		Query query = em.createQuery("from RentedBook as rb where rb.user.address.city.cityName = 'Wrocław' ");
+		List results = query.getResultList();
+		List<RentedBook> users = new ArrayList<RentedBook>();
+		for (Object result : results) {
+			users.add((RentedBook) result);
+		}
+		return users;
+	}
+	
 
+	@SuppressWarnings("rawtypes")
+	private static List<Entry<User, Long>> JPQLNoParameterUserMoreThanOneBook() {
+		init();
+		Query query = em.createQuery("select rb.user, count(rb)  from RentedBook as rb group by rb.user.id having count(rb) > 1 ");
+		List results = query.getResultList();
+		List<Entry<User, Long>> usersWithBokkCount = new ArrayList<Entry<User, Long>>();
+		for (Object result : results) {
+			Object [] resultArray = (Object[]) result;
+			usersWithBokkCount.add(new AbstractMap.SimpleEntry<User, Long>((User) resultArray[0], (Long) resultArray[1]));
+		}
+		return usersWithBokkCount;
+	}
+	
 	@SuppressWarnings("rawtypes")
 	private static List<User> JPQLNamedParameterUserByName(String surname) {
 		init();
@@ -117,6 +145,18 @@ public class Queries {
 		final String authorName = "Henryk";
 		final String cityName = "Wrocław";
 		final String bookTitle = "Pan Tadeusz";
+		
+		
+		System.out.println("Listing all books rented by users from wroclaw  ");
+		for (RentedBook b : JPQLNoParameterRentedBookFromWroclawCity()) {
+			System.out.println("  Book rented by user from wrocław : " + b);
+		}
+		
+		System.out.println("Listing users who rented more than one book ");
+		for (Entry<User, Long> b : JPQLNoParameterUserMoreThanOneBook()) {
+			System.out.println("  User "+b.getKey()+" rented " + b.getValue()+" books");
+		}
+		
 		System.out.println("Listing all users with name: " + userSurname);
 		for (User u : JPQLNamedParameterUserByName(userSurname)) {
 			System.out.println("  User with surname " + userSurname + ": " + u);
