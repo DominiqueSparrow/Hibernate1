@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 public class User {
 
 	@NotNull
-	@Id
+	@Id 
 	@Column(name = "id")
 	private int userId;
 

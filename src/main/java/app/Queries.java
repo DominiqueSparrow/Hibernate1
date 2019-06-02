@@ -21,8 +21,16 @@ import data.RentedBook;
 import data.User;
 
 public class Queries {
+	/**
+	 * Obiekt klasy EntityManager używany w metodach do wyszukiwania obiktów z
+	 * BD
+	 */
 	static EntityManager em = null;
 
+	/**
+	 * Medota do zainicjowania obiektu klasy {@link EntityManager} używanej w
+	 * pozostałych metodach
+	 */
 	private static void init() {
 		if (em == null) {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("maven1.persistence");
@@ -30,7 +38,14 @@ public class Queries {
 
 		}
 	}
-	
+
+	/**
+	 * Metoda wykorzystjąca JPQL query bez parametru do wyszukania wszystkich
+	 * książek wypożyczonych przez użytkowników z Wrocławia
+	 * 
+	 * @return lista obiektów typu Book reprezentująca wszystkie książki
+	 *         wypożyczone prez użytkowników z Wrocławia
+	 */
 	@SuppressWarnings("rawtypes")
 	private static List<RentedBook> JPQLNoParameterRentedBookFromWroclawCity() {
 		init();
@@ -42,8 +57,14 @@ public class Queries {
 		}
 		return users;
 	}
-	
 
+	/**
+	 * Metoda wykorzystująca zapytani JPQL bez parametrów w celu znalezienia
+	 * wszystkic użytkowników, którzy wyporzyczyli więcej niż jedną książkę
+	 * 
+	 * @return lista obiektów typu User, które odpowiadają użytkownikom, którzy
+	 *         pożyczyli więcej niż jedną książkę
+	 */
 	@SuppressWarnings("rawtypes")
 	private static List<Entry<User, Long>> JPQLNoParameterUserMoreThanOneBook() {
 		init();
@@ -51,12 +72,20 @@ public class Queries {
 		List results = query.getResultList();
 		List<Entry<User, Long>> usersWithBokkCount = new ArrayList<Entry<User, Long>>();
 		for (Object result : results) {
-			Object [] resultArray = (Object[]) result;
+			Object[] resultArray = (Object[]) result;
 			usersWithBokkCount.add(new AbstractMap.SimpleEntry<User, Long>((User) resultArray[0], (Long) resultArray[1]));
 		}
 		return usersWithBokkCount;
 	}
-	
+
+	/**
+	 * Metoda wykorzystująca zapytani JPQL z parametrem do znalezienia
+	 * wszystkich użytkowników o danym nazwisko
+	 * 
+	 * @param surname
+	 *            - nazwisko, z którym użytkowników będziemy szukać
+	 * @return lista użytkowników o zadanym nazwisku
+	 */
 	@SuppressWarnings("rawtypes")
 	private static List<User> JPQLNamedParameterUserByName(String surname) {
 		init();
@@ -69,11 +98,19 @@ public class Queries {
 		return users;
 	}
 
+	/**
+	 * Metoda korzystająca z zapytania JPQL z parametrem do wyszukiwania adresu
+	 * po naziw ulicy
+	 * 
+	 * @param streetName
+	 *            - nazwa ulicy, z którą chcemy adres
+	 * @return lista obiektów Address o danej nazwie ulicy
+	 */
 	@SuppressWarnings("rawtypes")
 	private static List<Address> JPQLNumberedParameterSearchAddress(String streetName) {
 		init();
 		Query query = em.createQuery("from Address a where a.street = ?1").setParameter(1, streetName);
-		List results = query.getResultList();
+		List results = query.getResultList();//return
 		List<Address> addresses = new ArrayList<Address>();
 		for (Object result : results) {
 			addresses.add((Address) result);
@@ -102,7 +139,7 @@ public class Queries {
 		init();
 		// utworzenie obiektu CriteriaBuilder
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		// utworzenie zapytania z typem Book
+		// utworzenie zapytania z typem User
 		CriteriaQuery<User> query = cb.createQuery(User.class);
 		Root<User> root = query.from(User.class);
 		// zbudowanie ścieżki do wartosci użytej w warunku
@@ -132,12 +169,20 @@ public class Queries {
 		return em.createQuery(query).getResultList();
 	}
 
+	/**
+	 * Metoda wykorzystująca NAmedQury - query zdefiniwane w adnotacji w klasie
+	 * {@link Book}, w celu znalezienia książki po id
+	 * 
+	 * @param bookId
+	 *            - id książki, której szukamy
+	 * @return ksiązka (obiekt typu Book) z zadanym id
+	 */
 	private static Book namedQueryAnnotationFindBookById(int bookId) {
 		init();
 		return em.createNamedQuery("BookById", Book.class).setParameter("id", bookId).getSingleResult();
 	}
 
-	public static void main(String[] dupa) {
+	public static void main(String[] zupa) {
 		init();
 		final String userSurname = "Nowak";
 		final String addressStreetName = "ul. Partyzantów";
@@ -145,18 +190,17 @@ public class Queries {
 		final String authorName = "Henryk";
 		final String cityName = "Wrocław";
 		final String bookTitle = "Pan Tadeusz";
-		
-		
+
 		System.out.println("Listing all books rented by users from wroclaw  ");
 		for (RentedBook b : JPQLNoParameterRentedBookFromWroclawCity()) {
 			System.out.println("  Book rented by user from wrocław : " + b);
 		}
-		
+
 		System.out.println("Listing users who rented more than one book ");
 		for (Entry<User, Long> b : JPQLNoParameterUserMoreThanOneBook()) {
-			System.out.println("  User "+b.getKey()+" rented " + b.getValue()+" books");
+			System.out.println("  User " + b.getKey() + " rented " + b.getValue() + " books");
 		}
-		
+
 		System.out.println("Listing all users with name: " + userSurname);
 		for (User u : JPQLNamedParameterUserByName(userSurname)) {
 			System.out.println("  User with surname " + userSurname + ": " + u);

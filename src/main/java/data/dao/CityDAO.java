@@ -19,12 +19,24 @@ public class CityDAO extends DAO {
 		return rl.get(0);
 	}
 
+	
+	/**
+	 * Metoda, która zraca liste wszystkich obiektow typu City z bazy danych
+	 * @return lista obiektów typu User
+	 */
 	@SuppressWarnings("unchecked")
 	public List<City> listAll() {
 		Query<City> q = hibernateSession.createQuery("from City ");
 		return q.getResultList();
 	}
 
+	
+	/**
+	 * Metoda pozwalająca na wyszukiwanie obiektów w bazie danych po wartości danego pola
+	 * @param property - nazwa pola użytego do wyszukania obiektu
+	 * @param value - szukana wartość wskazanego pola
+	 * @return lista obiektów spełniających warunek, że pole ma odpowiednią wartość
+	 */
 	@SuppressWarnings("unchecked")
 	public List<City> findByProperties(String property, String value) {
 		String hql = String.format("from City as u where u.%s = '%s'", property, value);

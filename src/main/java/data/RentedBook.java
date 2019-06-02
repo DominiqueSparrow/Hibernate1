@@ -15,8 +15,6 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 
-@FilterDef(name = "bookUserIdFilter", parameters = @ParamDef(name = "user_id_param", type = "int"))
-@Filter(name = "bookUserIdFilter", condition = "`userid` = :user_id_param")
 
 @Entity
 @Table(name = "WypozyczoneKsiazki")

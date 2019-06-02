@@ -222,12 +222,4 @@ public class DAOTest {
 		}
 	}
 	
-	@Test
-	public void testBookByUserIdFilter(){
-		RentedBookDAO bd = new RentedBookDAO();
-		List<RentedBook> books = bd.findByUserId(3);
-		for(RentedBook book : books){
-			System.out.println(book);
-	}
-	}
 }

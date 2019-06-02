@@ -17,7 +17,7 @@ public class Author {
 
 	@NotNull
 	@Id
-	@Column(name = "id")
+	//@Column(name = "id")
 	private int id;
 	
 	@Length(min = 1, max = 50)
