@@ -118,7 +118,7 @@ public class DAOTest {
 			System.out.println(u);
 		}
 		System.out.println("findByProperty");
-		for (Address u : ad.findByProperties("numerDomu", "12")) {
+		for (Address u : ad.findByProperties("homeNumber", "12")) {
 			System.out.println(u);
 		}
 

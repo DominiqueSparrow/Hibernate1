@@ -17,7 +17,7 @@ public class User {
 	@NotNull
 	@Id 
 	@Column(name = "id")
-	private int userId;
+	private int id;
 
 	@Length(min = 3, max = 50)
 	@Column(name = "nazwaUzytkownika")
@@ -40,11 +40,11 @@ public class User {
 	private Address address;
 
 	public int getUserId() {
-		return userId;
+		return id;
 	}
 
 	public void setUserId(int userId) {
-		this.userId = userId;
+		this.id = userId;
 	}
 
 	public String getUsername() {
@@ -97,7 +97,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return String.format("%s %s (%s, %s, %s, mieszka w %s)", name, surname, username, userId, password, address);
+		return String.format("%s %s (%s, %s, %s, mieszka w %s)", name, surname, username, id, password, address);
 	}
 
 }

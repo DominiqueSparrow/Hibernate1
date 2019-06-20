@@ -35,7 +35,6 @@ public class Queries {
 		if (em == null) {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("maven1.persistence");
 			em = emf.createEntityManager();
-
 		}
 	}
 
